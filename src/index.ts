@@ -1,8 +1,8 @@
 import express from "express"
-import type { Request, Response } from "express"
-
 import dotenv from "dotenv";
 dotenv.config();
+import { errorHandler} from "./middleware/errorHandler";
+import{run} from "./services/mail"
 
 const app = express();
 
@@ -10,7 +10,11 @@ const app = express();
 // Middleware
 app.use(express.json());
 
+run();
 
+
+// error handler 
+app.use(errorHandler);
 
 // Start server
 app.listen(process.env.PORT, () => {

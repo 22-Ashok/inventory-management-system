@@ -18,6 +18,7 @@
     "typescript": "^6.0.2"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.1029.0",
     "@prisma/adapter-pg": "^7.7.0",
     "@prisma/client": "^7.7.0",
     "@types/express": "^5.0.6",
@@ -28,5 +29,4 @@
     "pg": "^8.20.0",
     "zod": "^4.3.6"
   }
-
 }
