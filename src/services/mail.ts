@@ -32,16 +32,6 @@ export const run = async () => {
     "hop951801@gmail.com",
     "naviman0123@gmail.com",
   );
-
-  try {
-    console.log("sending email...")
-    await sesClient.send(sendEmailCommand);
-    console.log("email has been sent successfully");
-  } catch (caught) {
-    if (caught instanceof Error) {
-      console.log("Error:", caught.message);
-    }
-  }
 };
 
 
