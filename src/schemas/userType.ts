@@ -18,18 +18,19 @@ export const userSchema = z.object({
     .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
     .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
     .regex(/[0-9]/, { message: "Password must contain at least one number" })
-    .regex(/[\W_]/, { message: "Password must contain at least one special character" }),
+    .regex(/[\W_]/, { message: "Password must contain at least one special character" })
+    .optional(),
   
   f_name: z.string().min(1, { message: "First name is required" }).default("user"),
   
   l_name: z.string().min(1, { message: "Last name is required" }).optional(),
   
   contact: z
-    .string()
-    .regex(
-      /^(?:\+91|91|0)?[6-9]\d{9}$/, 
-      { message: "Must be a valid Indian phone number" }
-    ),
+  .string()
+  .regex(
+    /^(\+?\d{1,3}[- ]?)?\d{6,14}$/,
+    { message: "Must be a valid phone number" }
+  ),
   
   lastActive: z.date().optional(),
   role: RoleEnum.default("USER"),

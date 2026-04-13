@@ -1,16 +1,32 @@
-import type {Request, Response, NextFunction} from "express";
+import type {NextFunction, Request, Response} from "express";
 import { ZodError } from "zod";
+import { Prisma } from "../../generated/prisma/client"
+import {ApiError} from "../utils/appError";
 
+export function errorHandler(err:any, req:Request, res:Response, next:NextFunction){
 
-
-export function errorHandler(err:any, req:Request, res:Response){
+    if(err instanceof ApiError){
+        return res.status(err.statusCode).json({
+            status:"false",
+            message: err.message
+        })
+    }
    
-    if(err instanceof ZodError){
+    else if(err instanceof ZodError){
         return res.status(400).json({
             status:"false",
             message: err.issues.map((e) => e.message).join(", ")
         })
     }
+
+    else if(err instanceof Prisma.PrismaClientKnownRequestError){
+        if(err.code === "P2002") {
+            return res.status(409).json({
+                status:"false",
+                message: "Email already exists"
+            })
+        }
+    } 
 
     else {
         console.log(err);

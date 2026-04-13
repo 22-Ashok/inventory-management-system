@@ -1,9 +1,13 @@
 import express from "express";
 import { validateData } from "../middleware/validateData";
-import { loginSchema } from "../schemas/userType";
+import {userSchema} from "../schemas/userType";
+import { createUser } from "../controllers/users/createUser";
 
-const router = express.Router();
+const userRouter = express.Router();
 
 
-router.get("/v1/auth/login", validateData(loginSchema), ) 
 
+userRouter.post("/users", validateData(userSchema), createUser)
+
+
+export default userRouter;
