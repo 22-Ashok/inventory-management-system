@@ -5,6 +5,7 @@ import { ZodType } from "zod";
 export const validateData = (schema: ZodType) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
+      console.log(req.body);
       schema.parse(req.body);
       next();
       

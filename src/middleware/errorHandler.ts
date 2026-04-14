@@ -23,7 +23,7 @@ export function errorHandler(err:any, req:Request, res:Response, next:NextFuncti
         if(err.code === "P2002") {
             return res.status(409).json({
                 status:"false",
-                message: "Email already exists"
+                message: "User already exists"
             })
         }
     } 

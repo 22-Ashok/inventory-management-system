@@ -1,13 +1,16 @@
 import express from "express";
 import { validateData } from "../middleware/validateData";
-import {userSchema} from "../schemas/userType";
+import {userSchema, loginSchema, passwordSchema} from "../schemas/userType";
 import { createUser } from "../controllers/users/createUser";
+import { setupPermanentPassword } from "../controllers/users/setPermanentPassword";
+import { login } from "../controllers/users/login";
+
 
 const userRouter = express.Router();
 
-
-
-userRouter.post("/users", validateData(userSchema), createUser)
+userRouter.post("/users", validateData(userSchema), createUser);
+userRouter.post("/auth/login", validateData(loginSchema), login)
+userRouter.post("/auth/reset-password", validateData(passwordSchema), setupPermanentPassword);
 
 
 export default userRouter;
