@@ -33,7 +33,6 @@ const buildPasswordTemplate = (toEmail:string, tempPassword:string, subject:stri
 };
 
 
-
 // FUNCTION 2: The Main Function
 // It takes the variables, calls the template builder, and sends the email
 export const sendStaffPasswordEmail = async (toEmail:string, tempPassword:string) => {

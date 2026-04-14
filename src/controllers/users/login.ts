@@ -23,7 +23,6 @@ export async function login(req:Request, res:Response, next:NextFunction) {
       
       console.log("user password:", user.password)
       const isMatch = await bcrypt.compare(password, user.password);
-      console.log("isMatch", isMatch);
 
       if(!isMatch){
          throw new ApiError(400, "Invalid credentials");
@@ -42,7 +41,7 @@ export async function login(req:Request, res:Response, next:NextFunction) {
       }
 
       // generate the final token
-      const token = jwt.sign({userId: user.id}, process.env.JWT_SECRET_KEY as string, {expiresIn:"7d"});
+      const token = jwt.sign({userId: user.id, role:user.role}, process.env.JWT_SECRET_KEY as string, {expiresIn:"7d"});
       return res.status(200).json({
         status:"success",
         message:"Login successful",

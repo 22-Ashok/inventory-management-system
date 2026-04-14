@@ -9,6 +9,7 @@ export async function seedUser(){
             f_name: "Alice",
             l_name: "Johnson",
             contact: "+1234567890",
+            role: "ADMIN",
       }
     })
 
