@@ -2,76 +2,77 @@ import { z } from "zod";
 
 const RoleEnum = z.enum(["USER", "ADMIN", "STAFF"]);
 
-//    ============================================================================
-//                                  user schema
-//     ===========================================================================
-
-export const userSchema = z.object({
-  id: z.string().uuid().optional(), 
-  
-  email: z.string().email({ message: "Invalid email address" }),
-  
-  f_name: z.string().min(1, { message: "First name is required" }).default("user"),
-  
-  l_name: z.string().min(1, { message: "Last name is required" }).optional(),
-  
-  contact: z
-  .string()
-  .regex(
-    /^(\+?\d{1,3}[- ]?)?\d{6,14}$/,
-    { message: "Must be a valid phone number" }
-  ),
-  
-  lastActive: z.date().optional(),
-  role: RoleEnum.default("USER"),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
+// ============================================================================
+//                               CREATE USER SCHEMA
+// ============================================================================
+export const createUserSchema = z.object({
+  // We wrap the fields the client sends in the 'body' object
+  body: z.object({
+    email: z.string().email({ message: "Invalid email address" }),
+    
+    f_name: z.string().min(1, { message: "First name is required" }).default("user"),
+    
+    l_name: z.string().min(1, { message: "Last name is required" }).optional(),
+    
+    contact: z
+      .string()
+      .regex(
+        /^(\+?\d{1,3}[- ]?)?\d{6,14}$/,
+        { message: "Must be a valid phone number" }
+      ),
+      
+    role: RoleEnum.default("USER"),
+  })
 });
 
+// Type inference: Notice how we add ['body'] at the end!
+// This ensures your controller gets the exact type of the data inside req.body.
+export type CreateUserBody = z.infer<typeof createUserSchema>['body'];
 
 
-// Type inference so you can use this type throughout your TypeScript code
-export type UserType = z.infer<typeof userSchema>;
-
-/**
-    - The typeof keyword bridges that gap by telling TypeScript, "Look at this variable and figure out its shape." 
-    - z.infer<> ->  It takes that shape from step 1 and translates it into a pure TypeScript type.
-*/
-
-
-
-/* login schema  */
-
-//    ============================================================================
-//                                  login schema
-//     ===========================================================================
-
+// ============================================================================
+//                               LOGIN SCHEMA
+// ============================================================================
 export const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: "Email is required" })
-    .email({ message: "Invalid email address" }),
-  
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters long" })
-    .max(16, { message: "Password must be at most 16 characters long" })
-    .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
-    .regex(/[0-9]/, { message: "Password must contain at least one number" })
-    .regex(/[\W_]/, { message: "Password must contain at least one special character" }),
+  body: z.object({
+    email: z
+      .string()
+      .min(1, { message: "Email is required" })
+      .email({ message: "Invalid email address" }),
+    
+    password: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters long" })
+      .max(16, { message: "Password must be at most 16 characters long" })
+      .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
+      .regex(/[0-9]/, { message: "Password must contain at least one number" })
+      .regex(/[\W_]/, { message: "Password must contain at least one special character" }),
+  })
 });
 
-
-// =============== password reset schema ===============
-export const passwordSchema =  z.object({
-    newPassword : z.string()
-    .min(6, { message: "Password must be at least 6 characters long" })
-    .max(16, { message: "Password must be at most 16 characters long" })
-    .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
-    .regex(/[0-9]/, { message: "Password must contain at least one number" })
-    .regex(/[\W_]/, { message: "Password must contain at least one special character" })
-})
+export type LoginBody = z.infer<typeof loginSchema>['body'];
 
 
-// Generate the TypeScript type automatically
-export type LoginType = z.infer<typeof loginSchema>;
+// ============================================================================
+//                            PASSWORD RESET SCHEMA
+// ============================================================================
+export const resetPasswordSchema = z.object({
+  // The new password comes in the request body
+  body: z.object({
+    newPassword: z.string()
+      .min(6, { message: "Password must be at least 6 characters long" })
+      .max(16, { message: "Password must be at most 16 characters long" })
+      .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
+      .regex(/[0-9]/, { message: "Password must contain at least one number" })
+      .regex(/[\W_]/, { message: "Password must contain at least one special character" })
+  }),
+
+  // BONUS: Usually, password resets require a token in the URL parameters!
+  // e.g., POST /api/users/reset-password/:token
+  /*params: z.object({
+    token: z.string({ required_error: "Reset token is required" })
+  }).optional() // I made this optional in case you are handling tokens differently (like in headers) */
+});
+
+export type ResetPasswordBody = z.infer<typeof resetPasswordSchema>['body'];
+// export type ResetPasswordParams = z.infer<typeof resetPasswordSchema>['params'];

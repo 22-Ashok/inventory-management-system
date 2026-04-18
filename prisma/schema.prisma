@@ -18,6 +18,12 @@ enum Role {
   STAFF
 }
 
+enum Status {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
@@ -30,4 +36,5 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   is_password_set Boolean @default(false)
+  status   Status  @default(ACTIVE)
 }

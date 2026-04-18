@@ -9,6 +9,7 @@ import { ApiError } from "../../utils/appError";
 export async function login(req:Request, res:Response, next:NextFunction) {
     try{
       const {email, password} = req.body;
+      console.log(email);
 
       // when user sends the email and password -> validate the email and password -> check the flag -> force to generate the new password -> store into db -> send the jwt
       const user = await prisma.user.findUnique({
@@ -16,6 +17,8 @@ export async function login(req:Request, res:Response, next:NextFunction) {
           email,
         }
       }); 
+
+      console.log(user);
 
       if(!user){
         throw new ApiError(400, "user not found")

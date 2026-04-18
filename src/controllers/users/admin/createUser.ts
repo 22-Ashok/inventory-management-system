@@ -1,30 +1,35 @@
 import type {Request, Response, NextFunction} from "express";
-import { prisma } from "../../lib/prisma";
+import { prisma } from "../../../lib/prisma";
 import {generate} from "generate-password";
 import bcrypt from "bcrypt"
-import { sendStaffPasswordEmail } from "../../services/mail";
-import { ApiError } from "../../utils/appError";
+import { sendStaffPasswordEmail } from "../../../services/mail";
+import { ApiError } from "../../../utils/appError";
 
 export async function createUser(req:Request, res:Response, next:NextFunction) {
+
     try{
         // 1st need to checks the user is admin or not
-        const user = req.user;
+       const user = req.user;
+       // console.log("user from token is:", user);
         
         if(!user || user.role !== "ADMIN"){
             throw new ApiError(403, "Access denied. Admins only.");
-        }
+        }    
 
         // take input -> validate -> create user -> send the password to user email -> response 
         const{f_name, l_name, email, contact, role} = req.body;
 
         // generate the password
-        const password = generate({
+        let password = generate({
             length:8,
             numbers:true,
             symbols:true,
             uppercase:true,
             lowercase:true,
         });
+
+        password = password + "1"
+        console.log("newly password is:", password);
         
         // hashing the password 
         const saltRounds = 10;
