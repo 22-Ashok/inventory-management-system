@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import { errorHandler} from "./middleware/errorHandler";
 import adminRouter from "./routes/admin";
-import userRouter from "./routes/users"
+import authRouter from "./routes/auth"
 import { ApiError } from "./utils/appError";
 
 
@@ -13,7 +13,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use("/v1", adminRouter);
-app.use("/v1", userRouter)
+app.use("/v1", authRouter)
 
 app.use((req, res, next) => {
     next(new ApiError(404, `The route ${req.originalUrl} does not exist on this server.`));

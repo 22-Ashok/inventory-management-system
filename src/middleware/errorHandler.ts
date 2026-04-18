@@ -14,16 +14,26 @@ export function errorHandler(err:any, req:Request, res:Response, next:NextFuncti
    
     else if(err instanceof ZodError){
         return res.status(400).json({
-            status:"false",
-            message: err.issues.map((e) => e.message).join(", ")
+            status:false,
+            message: err.issues.map((e) => e.message).join(", "),
+            error:true
         })
     }
 
     else if(err instanceof Prisma.PrismaClientKnownRequestError){
         if(err.code === "P2002") {
             return res.status(409).json({
-                status:"false",
-                message: "User already exists"
+                status:false,
+                message: "User already exists",
+                error:true
+            })
+        }
+
+        else if(err.code === "P2025") {
+            return res.status(404).json({
+                status:false,
+                message:"user not found",
+                error:true
             })
         }
     } 
