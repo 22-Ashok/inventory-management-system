@@ -22,7 +22,7 @@ export async function forgotPassword(req:Request, res:Response, next:NextFunctio
        const redisKey : string = `reset_password_otp:${email}`;
 
        // save to cache and send it to the user email
-       redis.set(redisKey, otp.toString(), {
+       await redis.set(redisKey, otp.toString(), {
         ex: 300, // expires in 5 minutes
        });
 

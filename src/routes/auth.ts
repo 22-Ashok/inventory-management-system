@@ -4,13 +4,14 @@ import { login } from "../controllers/auth/login";
 import { loginSchema, resetPasswordSchema} from "../schemas/userType";
 import { validateData } from "../middleware/validateData";
 import { forgotPassword } from '../controllers/auth/forgetPassword';
+import { validateOTP } from '../controllers/auth/validateOTP';
 
 const authRouter = exprees.Router();
 
 authRouter.post("/auth/login", validateData(loginSchema), login);
 authRouter.post("/auth/set-permanent-password", validateData(resetPasswordSchema), setupPermanentPassword);
-authRouter.post("/auth/request-password-reset", forgotPassword);
-
+authRouter.post("/auth/request-password-forgot", forgotPassword);
+authRouter.post("/auth/otp-validate", validateOTP)
 
 
 export default authRouter; 
