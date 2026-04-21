@@ -35,7 +35,6 @@ export async function updateStaff(req: Request, res: Response, next: NextFunctio
 
     }
 
-
     catch(error){
         next(error)
     }

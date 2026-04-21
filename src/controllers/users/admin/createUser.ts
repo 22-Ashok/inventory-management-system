@@ -29,7 +29,6 @@ export async function createUser(req:Request, res:Response, next:NextFunction) {
         });
 
         password = password + "1"
-        console.log("newly password is:", password);
         
         // hashing the password 
         const saltRounds = 10;
@@ -48,12 +47,12 @@ export async function createUser(req:Request, res:Response, next:NextFunction) {
 
        // send the password to user email
        const response = await sendStaffPasswordEmail(email, password);
-       console.log(response);
        
         res.status(201).json({
             status:"success",
-            message:"User created successfully"
-        })
+            message:"User created successfully",
+            error: null
+        });
     }
 
     catch(error){

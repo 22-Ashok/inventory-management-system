@@ -13,7 +13,7 @@ export const setupPermanentPassword = async (req:Request, res:Response, next:Nex
         
         const { newPassword } = req.body;
         const authHeader = req.headers.authorization; // Contains the setupToken
-        console.log("password:", newPassword);
+
         if(!authHeader || !authHeader.startsWith("Bearer ")){
             throw new ApiError(401, "Authorization header missing or malformed.");
         }
@@ -26,7 +26,7 @@ export const setupPermanentPassword = async (req:Request, res:Response, next:Nex
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as string) as any;
-        console.log(decoded);
+
         // Security Check: Make sure this is a setup token, not a normal token
         if (decoded.intent !== 'PASSWORD_SETUP') {
             throw new ApiError(403, "Invalid token type for this operation.");
@@ -53,7 +53,8 @@ export const setupPermanentPassword = async (req:Request, res:Response, next:Nex
         return res.status(200).json({
             message: "Password updated successfully. Welcome!",
             accessToken,
-            user: { id: updatedUser.id, role: updatedUser.role }
+            user: { id: updatedUser.id, role: updatedUser.role },
+            error: null
         });
     }
 

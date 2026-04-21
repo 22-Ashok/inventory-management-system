@@ -27,7 +27,7 @@ export async function editUser(
        const cleanedData = Object.fromEntries(Object.entries(body).filter(([_, value]) => value !== undefined));
 
        // finding user by their id and update the user details
-       const updateUSer = await prisma.user.update({
+       const updateUser = await prisma.user.update({
          where: { id: params.id },
          data: cleanedData,
        });

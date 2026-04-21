@@ -9,10 +9,8 @@ export async function resetPassword(req: Request, res: Response, next: NextFunct
     try {
 
         const body = req.body as unknown as ResetPasswordBodyType;
-        console.log(body);
         
         const { email, newPassword, resetToken } = body;
-        console.log(email,newPassword, resetToken)
 
         // 1. Reconstruct the Redis key for the RESET TOKEN (Not the OTP!)
         const redisKey = `password_reset_token:${email}`;

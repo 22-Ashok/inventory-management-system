@@ -9,7 +9,6 @@ import { ApiError } from "../../utils/appError";
 export async function login(req:Request, res:Response, next:NextFunction) {
     try{
       const {email, password} = req.body;
-      console.log(email);
 
       // when user sends the email and password -> validate the email and password -> check the flag -> force to generate the new password -> store into db -> send the jwt
       const user = await prisma.user.findUnique({
@@ -22,7 +21,6 @@ export async function login(req:Request, res:Response, next:NextFunction) {
         throw new ApiError(400, "user not found")
       }
       
-      console.log("user password:", user.password)
       const isMatch = await bcrypt.compare(password, user.password);
 
       if(!isMatch){
@@ -38,7 +36,7 @@ export async function login(req:Request, res:Response, next:NextFunction) {
             message: "Temporary password accepted. Please set a permanent password.",
             token: restrictedToken,
             email: user.email
-          })
+          });
       }
 
       // generate the final token
@@ -55,8 +53,9 @@ export async function login(req:Request, res:Response, next:NextFunction) {
           contact:user.contact,
           role:user.role,
           lastActive:user.lastActive
-        }
-      })
+        },
+        error: null
+      });
     }
 
     catch(error){

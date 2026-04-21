@@ -7,8 +7,9 @@ export function errorHandler(err:any, req:Request, res:Response, next:NextFuncti
 
     if(err instanceof ApiError){
         return res.status(err.statusCode).json({
-            status:"false",
-            message: err.message
+            status:false,
+            message: err.message,
+            error: true
         })
     }
    
@@ -41,8 +42,9 @@ export function errorHandler(err:any, req:Request, res:Response, next:NextFuncti
     else {
         console.log(err);
         return res.status(500).json({
-            status:"false",
-            message: "Internal Server Error"
+            status:false,
+            message: "Internal Server Error",
+            error:true
         })
     }
 }

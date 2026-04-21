@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { ApiError } from '../../utils/appError'; // Your custom error class
+import { ApiError } from '../../utils/appError'; 
 
 export const attachUserRole = (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -11,7 +11,7 @@ export const attachUserRole = (req: Request, res: Response, next: NextFunction) 
     }
 
     const token = authHeader.split(' ')[1];
-    console.log(token)
+
     if(!token) {
         throw new ApiError(401, 'Access denied. Token missing.');
     }
@@ -27,7 +27,11 @@ export const attachUserRole = (req: Request, res: Response, next: NextFunction) 
 
     // 4. Move to the next step in the pipeline (which will be your controller)
     next();
-  } catch (error) {
+
+  } 
+  
+  catch (error) {
+
     if (error instanceof jwt.TokenExpiredError) {
        next(new ApiError(401, 'Your session has expired. Please log in again.'));
     } else {

@@ -1,6 +1,6 @@
 // src/middlewares/validateData.ts
 import type { Request, Response, NextFunction } from "express";
-import { ZodType, ZodError } from "zod";
+import { ZodType } from "zod";
 
 export const validateData = (schema: ZodType) => {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -13,8 +13,6 @@ export const validateData = (schema: ZodType) => {
       }) as { body?: any; query?: any; params?: any; };
 
       // 2. Safely mutate the request objects with the clean data
-      // Object.assign bypasses the "read-only" error by updating the object's contents 
-      // instead of trying to replace the whole object.
       
       if (validatedData.body) {
         // 1. Delete every key in the original dirty request body
