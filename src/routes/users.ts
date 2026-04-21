@@ -1,9 +1,12 @@
 import express from "express";
 import { validateData } from "../middleware/validateData";
-import { loginSchema } from "../schemas/userType";
+import { editUserByStaffSchema } from "../schemas/editUserSchema"
+import { getStaff }  from  "../controllers/users/staff/getStaff"
 
-const router = express.Router();
+const userRouter = express.Router();
 
 
-router.get("/v1/auth/login", validateData(loginSchema), ) 
+userRouter.get("/users/me", validateData(editUserByStaffSchema), getStaff);
+// userRouter.patch("/users/me")
 
+export default userRouter;
