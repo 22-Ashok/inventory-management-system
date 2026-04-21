@@ -17,7 +17,7 @@ export const setupPermanentPassword = async (req:Request, res:Response, next:Nex
         if(!authHeader || !authHeader.startsWith("Bearer ")){
             throw new ApiError(401, "Authorization header missing or malformed.");
         }
-        
+           
         // 1. Verify the restricted token
         const token = authHeader.split(' ')[1];
 

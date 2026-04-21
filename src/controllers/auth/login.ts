@@ -18,8 +18,6 @@ export async function login(req:Request, res:Response, next:NextFunction) {
         }
       }); 
 
-      console.log(user);
-
       if(!user){
         throw new ApiError(400, "user not found")
       }
