@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { ApiError } from '../../utils/appError'; 
+import { ApiError } from '../utils/appError'; 
 
 export const attachUserRole = (req: Request, res: Response, next: NextFunction) => {
   try {
