@@ -1,5 +1,5 @@
 import express from 'express';
-import { attachUserRole } from '../controllers/users/attachRole';
+import { attachUserRole } from '../controllers/attachRole';
 import  { getAllStaffSchema } from  "../schemas/getAllStaffQerrySchema"
 import { validateData } from '../middleware/validateData';
 import { getUsers } from '../controllers/users/admin/getUsers';
