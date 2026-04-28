@@ -47,3 +47,18 @@ model Category {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+
+model Supplier {
+  id String @id @default(uuid())
+  f_name String @unique
+  l_name String?
+  email String @unique
+  supplier_code String @unique
+  contact String
+  address String
+  status Status @default(ACTIVE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
